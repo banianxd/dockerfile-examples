@@ -22,11 +22,20 @@ RUN set -eux; \
 
 # 导入启动脚本
 COPY --chown=java-app:java-app docker-entrypoint.sh /home/java-app/docker-entrypoint.sh
-
+#COPY docker-entrypoint.sh /home/java-app/docker-entrypoint.sh
+#RUN chown -R java-app:java-app docker-entrypoint.sh
 # 导入JAR
 COPY --chown=java-app:java-app target/${JAR_FILE} /home/java-app/lib/app.jar
+#COPY target/${JAR_FILE} /home/java-app/lib/app.jar
+#RUN chown -R java-app:java-app /home/java-app/lib/app.jar
 
 USER java-app
+
+RUN ls /home/java-app; \
+	chmod +x /home/java-app/docker-entrypoint.sh; \
+	pwd; \
+	ls ./;
+
 
 ENTRYPOINT ["/home/java-app/docker-entrypoint.sh"]
 
